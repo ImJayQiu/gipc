@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @livingsupply.date %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @livingsupply.item %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @livingsupply.quantity %> </p>
+
+
+<p>
+  <strong>Unit:</strong>
+  <%= Livingitem.where(name: @livingsupply.item).first.unit %>
+</p>
+
+<p>
+  <strong>Province:</strong>
+  <%= @livingsupply.province %>
+</p>
+
+<p>
+  <strong>District:</strong>
+  <%= @livingsupply.district %>
+</p>
+
+
+<p>
+  <strong>Remark:</strong>
+  <%= @livingsupply.remark %>
+</p>
+
+<%= link_to 'Edit', edit_livingsupply_path(@livingsupply) %> |
+<%= link_to 'Back', livingsupplies_path %>

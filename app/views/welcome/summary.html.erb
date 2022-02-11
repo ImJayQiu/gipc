@@ -1,0 +1,374 @@
+<!-- Main -->
+<script src="/assets/js/chartkick.js"></script>
+<script src="/assets/js/highcharts.js"></script>
+<section id="main" class="wrapper">
+  <div class="inner">
+    <header class="align-center">
+      <h1>Summary Report</h1>
+      <p>The overview of current COVID-19 situation of <%= @country_name %></p>
+      <p>From: <%= @start_date %> --- To: <%= @end_date %></p>
+    </header>
+
+
+    <%= simple_form_for :ranges, url: welcome_summary_path do |f| %>
+      <table>
+        <tr align=center>
+          <td>
+            Select time period:
+          </td>
+
+          <td>
+            Start Date: 
+          </td>
+          <td>
+            <%= f.input :s_date, as: :date, label: false,  html5: true %>
+          </td>
+
+          <td>
+            ----- 
+          </td>
+
+
+          <td>
+            End Date:
+          </td>
+
+          <td>
+            <%= f.input :e_date, as: :date, label: false, html5: true %>
+          </td>
+
+          <td>
+            <%= f.submit "Submit", class: "btn btn-primary" %>
+          </td>
+
+        </tr>
+      </table>
+    <% end %>
+
+    <table>
+
+      <tr>
+
+        <td>
+          <span class="image fit">
+            <div id="districts_map" style="width: 100%; height: <%= @map_h %>px;"></div>
+          </span>
+        </td>
+
+        <td>
+          <span class="image fit">
+            <div id="provinces_map" style="width: 100%; height: <%= @map_h %>px;"></div>
+          </span>
+        </td>
+
+      </tr>
+
+    </table>
+
+    <div class="box alt">
+      <div class="row 50% uniform">
+        <div class="6u">
+          <%= pie_chart @summary_cases.group(:sex).count, title: "Gender Distirbution", library: {plotOptions: {pie: {dataLabels: {format: "<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)"}}}}  %>
+        </div>
+        <div class="6u">
+          <%= column_chart @summary_cases.group(:age).count, title: "Age Distribution" %>
+        </div>
+        <!-- Break -->
+        <div class="12u">
+          <%= column_chart @summary_cases.group(:qua_province).count, title: "Covid-19 Quarantine Distribution" %>
+        </div>
+
+        <!-- line chart test Break -->
+
+        <div class="12u">
+          <%= line_chart [
+            {name: "Hospitalized", data: @summary_cases.group(:notification_date).where(status: "Hospitalized").count, color: "Blue"}, 
+            {name: "Recovered", data: @summary_cases.group(:notification_date).where(status: "Recovered").count, color: "Green"}, 
+            {name: "Dead", data: @summary_cases.group(:notification_date).where(status: "Dead").count, color: "Red"} 
+          ], 
+          title: "Covid-19 Pandemic Timeline" %>
+        </div>
+
+        <!-- line chart test Break -->
+
+
+        <!-- Break -->
+        <div class="6u">
+          <%= pie_chart @summary_cases.group(:status).count, title: "Covid-19 Status Overview", library: {plotOptions: {pie: {dataLabels: {format: "<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)"}}}}  %>
+        </div>
+        <div class="6u">
+          <%= pie_chart @summary_cases.group(:onset_province).count, title: "Covid-19 onset province", library: {plotOptions: {pie: {dataLabels: {format: "<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)"}}}}  %>
+        </div>
+
+        <!-- Break -->
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Scripts -->
+<%= render "layouts/parts/scripts" %>
+
+<!##################### District map ###################################################>
+<script>
+
+  var d_map = L.map('districts_map').setView([<%= @c_domain %>], <%= @zoom %>);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20,
+  minZoom: 1 
+}).addTo(d_map);
+
+
+var districts = [
+
+  <% @districts.each do |p| %>
+    {
+      "type": "Feature",
+      "properties": {"district": '<%= p.name %>', "value": '<%= @summary_cases.where(qua_district: p.name).count %>'},
+      "geometry": {
+        "type": '<%= p.remark %>',
+        "coordinates": <%= p.polygon.to_s %>
+    }
+    }, 
+<% end %>
+];
+L.geoJSON(districts).addTo(d_map);
+///// provinces polygon finish ///
+
+///// control that shows state info on hover
+var d_info = L.control();
+
+d_info.onAdd = function (d_map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+d_info.update = function (props) {
+  this._div.innerHTML = '<h4>Covid-19 Cases Map</h4>' +
+    (props ? '<b>' + props.district + '</b><br />' + props.value + ' cases' : 'Districts View');
+};
+
+d_info.addTo(d_map);
+////// finish control that shows state info on hover
+
+function getColor(d) {
+  return  d > 1000 ? '#800026' :
+    d > 500  ? '#BD0026' :
+    d > 200  ? '#E31A1C' :
+    d > 100  ? '#FC4E2A' :
+    d > 50   ? '#FD8D3C' :
+    d > 20   ? '#FEB24C' :
+    d > 10   ? '#FED976' :
+    d > 0   ? '#FFEDA0':
+    '#FFFFFF';
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.value),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+  layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+  d_info.update(layer.feature.properties);
+}
+
+var geojson;
+
+function resetHighlight(e) {
+  geojson.resetStyle(e.target);
+  d_info.update();
+}
+
+function zoomToFeature(e) {
+  d_map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+  });
+}
+
+geojson = L.geoJson(districts, {
+  style: style,
+  onEachFeature: onEachFeature
+}).addTo(d_map);
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (d_map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+    grades = [1, 10, 20, 50, 100, 200, 500, 1000],
+    labels = [],
+    from, to;
+  labels.push('<i style="background:' + getColor("FFFFFF") + '"></i> ' + '0');
+  for (var i = 0; i < grades.length; i++) {
+    from = grades[i];
+    to = grades[i + 1];
+    labels.push(
+      '<i style="background:' + getColor(from + 1) + '"></i> ' +
+      from + (to ? '&ndash;' + to : '+'));
+  }
+  div.innerHTML = labels.join('<br>');
+  return div;
+};
+
+legend.addTo(d_map);
+
+
+</script>
+
+
+<!##################### Provinces map ###################################################>
+<script>
+
+  var p_map = L.map('provinces_map').setView([<%= @c_domain %>], <%= @zoom %>);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20,
+  minZoom: 1 
+}).addTo(p_map);
+
+
+var provinces = [
+
+  <% @provinces.each do |p| %>
+    {
+      "type": "Feature",
+      "properties": {"province": '<%= p.name %>', "value": '<%= @summary_cases.where(qua_province: p.name).count %>'},
+      "geometry": {
+        "type": '<%= p.remark %>',
+        "coordinates": <%= p.polygon.to_s %>
+    }
+    }, 
+<% end %>
+];
+/// show polygon on the map ///
+L.geoJSON(provinces).addTo(p_map);
+///// provinces polygon finish ///
+
+///// control that shows state info on hover
+var p_info = L.control();
+
+p_info.onAdd = function (p_map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+p_info.update = function (props) {
+  this._div.innerHTML = '<h4>Covid-19 Cases Map</h4>' +
+    (props ? '<b>' + props.province + '</b><br />' + props.value + ' cases' : 'Provinces View');
+};
+
+p_info.addTo(p_map);
+////// finish control that shows state info on hover
+
+function getColor(d) {
+  return  d > 1000 ? '#800026' :
+    d > 500  ? '#BD0026' :
+    d > 200  ? '#E31A1C' :
+    d > 100  ? '#FC4E2A' :
+    d > 50   ? '#FD8D3C' :
+    d > 20   ? '#FEB24C' :
+    d > 10   ? '#FED976' :
+    d > 0   ? '#FFEDA0':
+    '#FFFFFF';
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.value),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+  layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+  p_info.update(layer.feature.properties);
+}
+
+var geojson;
+
+function resetHighlight(e) {
+  geojson.resetStyle(e.target);
+  p_info.update();
+}
+
+function zoomToFeature(e) {
+  p_map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+  });
+}
+
+geojson = L.geoJson(provinces, {
+  style: style,
+  onEachFeature: onEachFeature
+}).addTo(p_map);
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (p_map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+    grades = [1, 10, 20, 50, 100, 200, 500, 1000],
+    labels = [],
+    from, to;
+  labels.push('<i style="background:' + getColor("FFFFFF") + '"></i> ' + '0');
+  for (var i = 0; i < grades.length; i++) {
+    from = grades[i];
+    to = grades[i + 1];
+    labels.push(
+      '<i style="background:' + getColor(from + 1) + '"></i> ' +
+      from + (to ? '&ndash;' + to : '+'));
+  }
+  div.innerHTML = labels.join('<br>');
+  return div;
+};
+
+legend.addTo(p_map);
+
+
+</script>

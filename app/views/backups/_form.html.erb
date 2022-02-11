@@ -1,0 +1,34 @@
+<%= form_with(model: backup, local: true) do |form| %>
+  <% if backup.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(backup.errors.count, "error") %> prohibited this backup from being saved:</h2>
+
+      <ul>
+        <% backup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+   Cycle: Every <%= form.number_field :cycle %> (days)
+  </div>
+  <p/>
+  <div class="field">
+    Path
+  <p/>
+    <%= form.text_field :path %>
+  </div>
+
+  <div class="field">
+    <%= form.label :remark %>
+    <%= form.text_field :remark %>
+  </div>
+
+  <p/>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

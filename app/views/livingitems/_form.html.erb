@@ -1,0 +1,60 @@
+<%= form_with(model: livingitem, local: true) do |form| %>
+  <% if livingitem.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(livingitem.errors.count, "error") %> prohibited this livingitem from being saved:</h2>
+
+      <ul>
+        <% livingitem.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true  %>
+  </div>
+
+  <p/>
+
+  <div class="field">
+    <%= form.label :unit %>
+    <%= form.select :unit, options_from_collection_for_select(Unit.all.order(:name), :name, :name, form.object.unit), prompt: "- Please Select Unit - ", required: true %>
+  </div>
+
+  <p/>
+
+  <div class="field">
+    <%= form.label "Calorie" %>
+    <%= form.text_field :cal, required: true  %> Kilocalories per unit
+  </div>
+
+
+  <p/>
+
+  <div class="field">
+    <%= form.label "Safety Inventory" %>
+    <%= form.text_field :safety, required: true  %>  unit per person per month 
+  </div>
+
+  <p/>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :des %>
+  </div>
+
+  <p/>
+
+  <div class="field">
+    <%= form.label :remark %>
+    <%= form.text_area :remark %>
+  </div>
+
+  <p/>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

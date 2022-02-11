@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cycle:</strong>
+  <%= @backup.cycle %>
+</p>
+
+<p>
+  <strong>Path:</strong>
+  <%= @backup.path %>
+</p>
+
+<p>
+  <strong>Remark:</strong>
+  <%= @backup.remark %>
+</p>
+
+<%= link_to 'Edit', edit_backup_path(@backup) %> |
+<%= link_to 'Back', backups_path %>

@@ -1,0 +1,57 @@
+<%= form_with(model: province, local: true) do |form| %>
+  <% if province.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(province.errors.count, "error") %> prohibited this province from being saved:</h2>
+
+      <ul>
+        <% province.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p/>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <p/>
+  <div>
+    <%= form.label "Administrative division level" %>
+    <%= form.select :admlevel, [['Please select Administrative division level', nil], 'Province', 'District'], required: true%>
+  </div>
+
+  <p/>
+  <div class="field">
+    <%= form.label :population %>
+    <%= form.text_field :population, required: true%>
+  </div>
+
+  <p/>
+  <div class="field">
+    <%= form.label :density %>
+    <%= form.text_field :density %> ( Unit: Square kilometre )
+  </div>
+
+  <p/>
+
+  <div class="field">
+    <%= form.label :polygon %>
+    <%= form.text_area :polygon %>
+  </div>
+
+  <p/>
+  <div class="field">
+    <%= form.label "Polygon Type" %>
+    <%= form.select :remark, [['Please select Polygon Type', nil],  'Polygon', 'MultiPolygon'] %>
+  </div>
+
+  <p/>
+
+  <div class="actions">
+    <%= form.submit "Submit" %>
+  </div>
+
+<% end %>

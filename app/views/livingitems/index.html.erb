@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Living items management</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Safety</th>
+      <th>Kcal</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @livingitems.each do |livingitem| %>
+      <tr>
+        <td><%= livingitem.name %></td>
+        <td><%= livingitem.safety %> <%= livingitem.unit %>/person/month</td>
+        <td><%= livingitem.cal rescue nil %> Kcal per <%= livingitem.unit rescue nil %></td>
+        <td><%= link_to 'Show', livingitem %></td>
+        <td><%= link_to 'Edit', edit_livingitem_path(livingitem) %></td>
+        <td><%= link_to 'Del', livingitem, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Livingitem', new_livingitem_path %>

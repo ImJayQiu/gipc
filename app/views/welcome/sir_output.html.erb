@@ -1,0 +1,112 @@
+<!-- Main -->
+<script src="/assets/js/chartkick.js"></script>
+<script src="/assets/js/highcharts.js"></script>
+<section id="main" class="wrapper">
+  <div class="inner">
+    <header class="align-center">
+      <h1>Susceptible - Infected - Recovered (SIR) Model</h1>
+      <p>The SIR Model of current COVID-19 situation of <%= @country_name %></p>
+    </header>
+
+    <div class="box alt">
+      <div class="row 50% uniform">
+
+        <!------------------------ SIR output test Break -------------------------------->
+
+        <table>
+        </table>
+
+        <table>
+          <tr align=center>
+            <td>
+              Selected Start Date: <%= @sdate rescue nil %>
+            </td>
+            <td>
+              Selected End Date: <%= @edate rescue nil %>
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr align=center>
+            <td>
+              Province: <%= @province rescue nil %>
+            </td>
+            <td>
+              Population: <%= @population rescue nil %>
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr align=center>
+            <td>
+              Susceptible: <%= @s rescue nil %>
+            </td>
+            <td>
+              Infected: <%= @i rescue nil %>
+            </td>
+            <td>
+              Recovered: <%= @r rescue nil %>
+            </td>
+            <td>
+              Dead: <%= @d rescue nil %>
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr align=center>
+            <td>
+              Beta (β) : <%= @beta rescue nil %>
+            <br/><em>* Beta is Infectious rate per day </em>
+            </td>
+            <td>
+              Gamma (γ) : <%= @gamma rescue nil %>
+            <br/><em>* Gamma is the Recovery rate </em>
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr align=center>
+            <td>
+              Lambda (λ) : <%= @lambda rescue nil %>
+            <br/><em>* Lambda is the rate of movement from exposed to infectious per day </em>
+            </td>
+            <td>
+              Delta (Δ) : <%= @gamma rescue nil %>
+            <br/><em>* Delta is the rate of death for those who enter an infectious state</em>
+            </td>
+          </tr>
+        </table>
+
+
+
+
+
+        <!------------------------ SIR output test Break -------------------------------->
+
+
+        <!-- line chart test Break -->
+        <div class="12u">
+          <%= line_chart [
+            {name: "Susceptible", data: Hash[(0...@final_S.size).zip @final_S], color: "Blue"}, 
+            {name: "Infected", data: Hash[(0...@final_I.size).zip @final_I], color: "Red"}, 
+            {name: "Recovered", data: Hash[(0...@final_R.size).zip @final_R], color: "Green"} 
+          ], 
+          title: "Covid-19 SIR Model" %>
+        </div>
+
+
+        <!-- Break -->
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Scripts -->
+<%= render "layouts/parts/scripts" %>
+

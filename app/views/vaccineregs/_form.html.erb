@@ -1,0 +1,156 @@
+<%= form_with(model: vaccinereg, local: true) do |form| %>
+  <% if vaccinereg.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vaccinereg.errors.count, "error") %> prohibited this vaccinereg from being saved:</h2>
+
+      <ul>
+        <% vaccinereg.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    Vaccine Type:
+    <%= form.select :vaccinetype, options_from_collection_for_select(Vaccine.all.order(:id), :name, :name, form.object.vaccinetype), prompt: "- Please Select vaccine - "%>
+  </div>
+
+  <p/>
+  <div class="field">
+   Vaccine Lot No:
+    <%= form.text_field :vaccinelotno %>
+  </div>
+
+  <p/>
+  <div class="field">
+    First Name:
+    <%= form.text_field :firstname %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Last Name:
+    <%= form.text_field :lastname %>
+  </div>
+
+  <p/>
+  <div class="field">
+    ID / Passport:
+    <%= form.text_field :idpass %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Birthday:
+    <%= form.date_select :birthday, start_year: Date.today.year-90 %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Gender:
+    <%= form.text_field :gender %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Email:
+    <%= form.text_field :email %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Phone:
+    <%= form.text_field :phone %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Country:
+    <%= form.text_field :country %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Province:
+    <%= form.select :province, options_from_collection_for_select(Province.all.order(:name), :name, :name), include_blank: true %>
+  </div>
+
+  <p/>
+  <div class="field">
+    City:
+    <%= form.text_field :city %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Address:
+    <%= form.text_area :address %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Zip/Postcode:
+    <%= form.text_field :zipcode %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Insurance Company: 
+    <%= form.text_field :insurancecompany %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Insurance ID: 
+    <%= form.text_field :insuranceid %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Current Health Condition:
+    <%= form.text_area :healthcondition %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Current Medication:
+    <%= form.text_field :currentmedication %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Allergies:
+    <%= form.text_area :allergies %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Have you been diagnosed with COVID-19 ?
+    <%= form.text_field :covidhistory %>
+  </div>
+
+  <p/>
+  <div class="field">
+    If yes, please provide further details (Date of diagnition, treatment details, etc.)
+    <%= form.text_area :coviddetail %>
+  </div>
+
+  <p/>
+  <div class="field">
+    Remark:
+    <%= form.text_area :remark %>
+  </div>
+
+  <p/>
+  <div class="field">
+    I hereby declare that all the given information are accurate.
+    <%= form.text_field :declare %>
+  </div>
+
+  <p/>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

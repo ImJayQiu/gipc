@@ -1,0 +1,117 @@
+<!-- Main -->
+<script src="/assets/js/chartkick.js"></script>
+<script src="/assets/js/highcharts.js"></script>
+<section id="main" class="wrapper">
+  <div class="inner">
+    <header class="align-center">
+      <h1>Susceptible - Infected - Recovered (SIR) Model</h1>
+      <p>The SIR Model of current COVID-19 situation of <%= @country_name %></p>
+    </header>
+
+
+
+    <div class="box alt">
+      <div class="row 50% uniform">
+
+        <!-- line chart test Break -->
+        <div class="12u">
+          <%= line_chart [
+            {name: "Hospitalized", data: Covid19case.group(:notification_date).where(status: "Hospitalized").count, color: "Blue"}, 
+            {name: "Recovered", data: Covid19case.group(:notification_date).where(status: "Recovered").count, color: "Green"}, 
+            {name: "Dead", data: Covid19case.group(:notification_date).where(status: "Dead").count, color: "Red"} 
+          ], 
+          title: "Covid-19 Pandemic Timeline" %>
+        </div>
+
+        <!------------------------ SIR form test Break -------------------------------->
+
+        <div class="12u">
+          <%= form_tag({controller: "welcome", action: "sir_output" }, method: :post) do %>
+            <table>
+              <tr align=center>
+                <td>
+                  <h3>Initial Condition of SIR Model</h3>
+                </td>
+              </tr>
+            </table>
+
+
+            <table>
+              <tr align=center>
+                <td>
+                  Start Date: <%= date_field :s_date, params[:s_date], required: true %>
+                </td>
+                <td>
+                  End Date: <%= date_field :e_date, params[:e_date], required: true  %>
+                </td>
+              </tr>
+            </table>
+
+            <table>
+              <tr align=center>
+                <td>
+                  Province : <%= select :province, params[:province], options_from_collection_for_select(Province.where(admlevel: "District").all.order(:name), :name, :pro_pop ), prompt: "- Please Select Province -"%>
+                </td>
+                <td>
+                  Susceptible : <%= text_field :susceptible, params[:susceptible], required: true %>
+                </td>
+              </tr>
+            </table>
+
+
+            <table>
+              <tr align=center>
+                <td>
+                  Beta (β) : <%= text_field :beta, params[:beta], value: "0.6", required: true, title: "How often contact between a Susceptible individual and an Infectious individual results in infection, also known as the transmission rate." %>
+                <br/><em>* Beta is Infectious rate per day </em>
+                </td>
+                <td>
+                  Gamma (γ) : <%= text_field :gamma, params[:gamma], value: "0.2", required: true, title: "The rate at which Infectious individuals recover and become Removed." %>
+                <br/><em>* Gamma is the Recovery rate</em>
+                </td>
+            </table>
+
+            <table>
+              <tr align=center>
+                <td>
+                  Lambda (λ) : <%= text_field :lambda, params[:lambda], value: "0.333", required: true, title: "The rate at which Exposed individuals become Infectious." %>
+                <br/><em>* Lambda is the rate of movement from exposed to infectious per day </em>
+                </td>
+                <td>
+                  Delta (Δ) : <%= text_field :delta, params[:delta], value: "0.007", required: true, title: "The percentage of infections that result in Death." %>
+                <br/><em>* Delta is the rate of death for those who enter an infectious state </em>
+                </td>
+            </table>
+
+            <table>
+              <tr align=center>
+                <td>
+                  Time to simulate: <%= text_field :days, params[:days], value: "150", required: true %> days
+                </td>
+              </tr>
+            </table>
+
+
+            <table>
+              <tr>
+                <td align=center>
+                  <%= submit_tag "Submit & Analyze", class: "submit", :data => { :disable_with => 'GIPC is processing data now, Please wait ...' } %>
+                </td>
+              </tr>
+            </table>
+
+          <% end %>
+        </div>
+
+        <!------------------------ SIR form test Break -------------------------------->
+
+        <!-- Break -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Scripts -->
+<%= render "layouts/parts/scripts" %>
+

@@ -1,0 +1,86 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @covid19case.name rescue nil %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @covid19case.age rescue nil %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @covid19case.sex rescue nil %>
+</p>
+
+<p>
+  <strong>Nationality:</strong>
+  <%= @covid19case.nationality rescue nil %>
+</p>
+
+<p>
+  <strong>Quarantine Province:</strong>
+  <%= @covid19case.qua_province rescue nil %>
+</p>
+
+<p>
+  <strong>Quarantine District:</strong>
+  <%= @covid19case.qua_district rescue nil %>
+</p>
+
+
+<p>
+  <strong>Notification Date:</strong>
+  <%= @covid19case.notification_date rescue nil %>
+</p>
+
+<p>
+  <strong>Announce Date:</strong>
+  <%= @covid19case.announce_date rescue nil %>
+</p>
+
+<p>
+  <strong>Onset Province:</strong>
+  <%= @covid19case.onset_province rescue nil %>
+</p>
+
+<p>
+  <strong>Onset District:</strong>
+  <%= @covid19case.onset_district rescue nil %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @covid19case.status rescue nil %>
+</p>
+
+<p>
+  <strong>ID / Passport:</strong>
+  <%= @covid19case.id_pass rescue nil %>
+</p>
+
+<p>
+  <strong>Remark1:</strong>
+  <%= @covid19case.remark1 rescue nil %>
+</p>
+
+<p>
+  <strong>Remark2:</strong>
+  <%= @covid19case.remark2 rescue nil %>
+</p>
+
+<p>
+  <strong>Created By:</strong>
+  <%= @covid19case.created_by rescue nil %>
+</p>
+
+<p>
+  <strong>Edited By:</strong>
+  <%= @covid19case.edited_by rescue nil %>
+</p>
+
+
+<%= link_to 'Edit', edit_covid19case_path(@covid19case) %> |
+<%= link_to 'Back', covid19cases_path %>

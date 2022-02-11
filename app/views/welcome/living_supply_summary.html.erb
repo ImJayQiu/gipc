@@ -1,0 +1,316 @@
+<!-- Main -->
+<script src="/assets/js/chartkick.js"></script>
+<script src="/assets/js/highcharts.js"></script>
+<section id="main" class="wrapper">
+  <div class="inner">
+    <header class="align-center">
+      <h1><%= @country_name %> Living Supply Summary Report</h1>
+      <p>The overview of current living supply summary of <%= @country_name %></p>
+      <em>* 2000 Kcals per day per person</em>
+    </header>
+
+    <p/>
+
+    <table>
+      <tr>
+
+        <td>
+          <span class="image fit">
+            <div id="cal_map" style="width: 100%; height: <%= @map_h %>px;"></div>
+          </span>
+        </td>
+
+        <td>
+          <span class="image fit">
+            <div id="water_map" style="width: 100%; height: <%= @map_h %>px;"></div>
+          </span>
+        </td>
+
+      </tr>
+
+    </table>
+
+
+    <div class="box alt">
+      <div class="row 50% uniform">
+        <!-- Break -->
+
+        <div class="12u">
+          <%= column_chart Livingsupply.group(:item, :district).sum(:quantity), title: "Province Living Supply Distribution" %>
+        </div>
+
+        <div class="12u">
+          <%= column_chart Livingsupply.group(:item, :province).sum(:quantity), title: "Province Living Supply Distribution" %>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Scripts -->
+<%= render "layouts/parts/scripts" %>
+
+<%############ cal_map ##################################################### %>
+<script>
+
+  var cal_map = L.map('cal_map').setView([<%= @c_domain %>], <%= @zoom %>);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20,
+  minZoom: 1 
+}).addTo(cal_map);
+
+
+var districts = [
+
+  <% @districts.each do |d| %>
+    <% total_cal=[] %>
+  <%Livingsupply.where(district: d.name).each do |liv|%>
+    <%ical = liv.quantity * Livingitem.where(name: liv.item).last.cal%>
+  <% total_cal << ical %>
+<%end%>
+
+  {
+    "type": "Feature",
+    "properties": {"district": "<%= d.name %>", "value": "<%= (total_cal.sum/Province.where(name: d.name).first.population/2000/30.to_f).round(2) %>" },
+    "geometry": {
+      "type": "<%= d.remark %>",
+      "coordinates": <%= d.polygon.to_s %>
+  }
+  }, 
+<% end %>
+];
+L.geoJSON(districts).addTo(cal_map);
+///// provinces polygon finish ///
+
+///// control that shows state info on hover
+var cal_info = L.control();
+
+cal_info.onAdd = function (cal_map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+cal_info.update = function (props) {
+  this._div.innerHTML = '<h4>Living Supply Map</h4>' +
+    (props ? '<b>' + props.district + '</b><br />' + props.value + " months/person"  : 'Calories View');
+};
+
+cal_info.addTo(cal_map);
+////// finish control that shows state info on hover
+
+function getColor(d) {
+  return  d > 3 ? '#2874a6' :
+    d > 2.5  ? '#3498db' :
+    d > 2  ? '#2ecc71' :
+    d > 1.5  ? '#f1c40f' :
+    d > 1   ? '#ba4a00' :
+    d > 0   ? '#922b21':
+    '#FFFFFF';
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.value),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+  layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+  cal_info.update(layer.feature.properties);
+}
+
+var geojson;
+
+function resetHighlight(e) {
+  geojson.resetStyle(e.target);
+  cal_info.update();
+}
+
+function zoomToFeature(e) {
+  cal_map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+  });
+}
+
+geojson = L.geoJson(districts, {
+  style: style,
+  onEachFeature: onEachFeature
+}).addTo(cal_map);
+
+var c_legend = L.control({position: 'bottomright'});
+
+c_legend.onAdd = function (cal_map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+    grades = [0, 1, 1.5, 2, 2.5, 3],
+    labels = [],
+    from, to;
+  labels.push('<i style="background:' + getColor("FFFFFF") + '"></i> ' + '0');
+  for (var i = 0; i < grades.length; i++) {
+    from = grades[i];
+    to = grades[i + 1];
+    labels.push(
+      '<i style="background:' + getColor(from + 1) + '"></i> ' +
+      from + (to ? '&ndash;' + to : '+'));
+  }
+  div.innerHTML = labels.join('<br>');
+  return div;
+};
+
+c_legend.addTo(cal_map);
+
+
+</script>
+
+<%############ water_map ##################################################### %>
+<script>
+
+  var water_map = L.map('water_map').setView([<%= @c_domain %>], <%= @zoom %>);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20,
+  minZoom: 1 
+}).addTo(water_map);
+
+
+var districts = [
+
+  <% @districts.each do |p| %>
+    {
+      "type": "Feature",
+      "properties": {"district": "<%= p.name %>", "value": "<%= (Livingsupply.where(district: p.name, item: 'Water').order(:date).sum(:quantity)/Province.where(name: p.name).last.population/Livingitem.where(name: 'Water').last.safety.to_f).round(2) rescue nil %>" },
+      "geometry": {
+        "type": "<%= p.remark %>",
+        "coordinates": <%= p.polygon.to_s %>
+    }
+    }, 
+<% end %>
+];
+L.geoJSON(districts).addTo(water_map);
+///// provinces polygon finish ///
+
+///// control that shows state info on hover
+var water_info = L.control();
+
+water_info.onAdd = function (water_map) {
+  this._div = L.DomUtil.create('div', 'info');
+  this.update();
+  return this._div;
+};
+
+water_info.update = function (props) {
+  this._div.innerHTML = '<h4>Living Supply Map</h4>' +
+    (props ? '<b>' + props.district + '</b><br />' + props.value + " months/person"  : 'Water View');
+};
+
+water_info.addTo(water_map);
+////// finish control that shows state info on hover
+
+function getColor(w) {
+  return  w > 3 ? '#2874a6' :
+    w > 2.5  ? '#3498db' :
+    w > 2  ? '#2ecc71' :
+    w > 1.5  ? '#f1c40f' :
+    w > 1   ? '#ba4a00' :
+    w > 0   ? '#922b21':
+    '#FFFFFF';
+}
+
+function style(feature) {
+  return {
+    fillColor: getColor(feature.properties.value),
+    weight: 1,
+    opacity: 1,
+    color: 'white',
+    dashArray: '3',
+    fillOpacity: 0.7
+  };
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+  layer.setStyle({
+    weight: 5,
+    color: '#666',
+    dashArray: '',
+    fillOpacity: 0.7
+  });
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
+  }
+  water_info.update(layer.feature.properties);
+}
+
+var geojson;
+
+function resetHighlight(e) {
+  geojson.resetStyle(e.target);
+  water_info.update();
+}
+
+function zoomToFeature(e) {
+  water_map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight,
+    click: zoomToFeature
+  });
+}
+
+geojson = L.geoJson(districts, {
+  style: style,
+  onEachFeature: onEachFeature
+}).addTo(water_map);
+
+var w_legend = L.control({position: 'bottomright'});
+
+w_legend.onAdd = function (water_map) {
+  var div = L.DomUtil.create('div', 'info legend'),
+    grades = [0, 1, 1.5, 2, 2.5, 3],
+    labels = [],
+    from, to;
+  labels.push('<i style="background:' + getColor("FFFFFF") + '"></i> ' + '0');
+  for (var i = 0; i < grades.length; i++) {
+    from = grades[i];
+    to = grades[i + 1];
+    labels.push(
+      '<i style="background:' + getColor(from + 1) + '"></i> ' +
+      from + (to ? '&ndash;' + to : '+'));
+  }
+  div.innerHTML = labels.join('<br>');
+  return div;
+};
+
+w_legend.addTo(water_map);
+
+
+</script>
