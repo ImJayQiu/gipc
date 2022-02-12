@@ -1,0 +1,57 @@
+name,age,gender,nationality,qua_province,qua_district,notification_date,announce_date,onset_province,onset_district,status,id/passport,remark1,remark2
+Oreela,78,Male,Botswana,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501658,remark1,remark2
+Ralee,45,Female,Jamaica,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501659,remark1,remark2
+Lee,67,Male,Isle of Man,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501660,remark1,remark2
+Oleera,87,Female,Armenia,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501661,remark1,remark2
+Alee,56,Male,Guatemala,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501662,remark1,remark2
+rlaee,76,Female,Papua New Guinea,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501663,remark1,remark2
+Orulp,90,Male,Nigeria,Central,Kandy,11/19/2021,11/20/2021,Central,Kandy,Hospitalized,1501668,remark1,remark2
+Ana,71,Female,Monaco,North Central,Galle,11/19/2021,11/20/2021,Southern,Galle,Recovered,1725332,remark1,remark2
+Amara,53,Male,Cape Verde,Eastern,Moneragala,11/20/2021,11/21/2021,Uva,Moneragala,Recovered,1017918,remark1,remark2
+Rosabelle,31,Male,Trinidad and Tobago,Northern,Galle,11/20/2021,11/21/2021,Southern,Galle,Hospitalized,589468,remark1,remark2
+Philis,80,Female,Panama,Sabaragamuwa,Kurunegala,11/20/2021,11/21/2021,North Western,Kurunegala,Recovered,532107,remark1,remark2
+Charissa,21,Female,Canada,Eastern,Jaffna,11/20/2021,11/21/2021,Northern,Jaffna,Hospitalized,317750,remark1,remark2
+Katharina,31,Male,Reunion,Eastern,Jaffna,11/20/2021,11/21/2021,Northern,Jaffna,Dead,782996,remark1,remark2
+Jenda,41,Male,Angola,Uva,Moneragala,11/20/2021,11/21/2021,Uva,Moneragala,Recovered,1782192,remark1,remark2
+Teddie,72,Male,Serbia and Montenegro,Central,Jaffna,11/20/2021,11/21/2021,Northern,Jaffna,Recovered,1607605,remark1,remark2
+Caressa,25,Male,Denmark,Northern,Anuradhapura,11/20/2021,11/21/2021,North Central,Anuradhapura,Recovered,1765370,remark1,remark2
+Sadie,38,Female,Bhutan,Northern,Galle,11/20/2021,11/21/2021,Southern,Galle,Recovered,500799,remark1,remark2
+Jillayne,42,Female,Cayman Islands,North Western,Rambukkana,11/20/2021,11/21/2021,Sabaragamuwa,Rambukkana,Recovered,1516584,remark1,remark2
+Lulita,61,Male,Egypt,Central,Anuradhapura,11/20/2021,11/21/2021,North Central,Anuradhapura,Dead,475883,remark1,remark2
+Sharlene,39,Male,Mayotte,North Central,Colombo,11/20/2021,11/21/2021,Western,Colombo,Hospitalized,1356362,remark1,remark2
+Ellette,57,Female,Isle of Man,Uva,Moneragala,11/20/2021,11/21/2021,Uva,Moneragala,Recovered,1911000,remark1,remark2
+Magdalena,32,Female,Chad,North Central,Moneragala,11/20/2021,11/21/2021,Uva,Moneragala,Recovered,739472,remark1,remark2
+Heddie,33,Female,Norfolk Island,Central,Kurunegala,11/20/2021,11/21/2021,North Western,Kurunegala,Dead,947881,remark1,remark2
+Fanny,23,Female,Paraguay,Central,Galle,11/21/2021,11/22/2021,Southern,Galle,Hospitalized,457661,remark1,remark2
+Halette,50,Female,Costa Rica,Uva,Anuradhapura,11/21/2021,11/22/2021,North Central,Anuradhapura,Hospitalized,1504229,remark1,remark2
+Linet,55,Male,"Iran, Islamic Republic Of",Sabaragamuwa,Rambukkana,11/21/2021,11/22/2021,Sabaragamuwa,Rambukkana,Recovered,1871000,remark1,remark2
+Fidelia,61,Female,Romania,North Western,Jaffna,11/21/2021,11/22/2021,Northern,Jaffna,Recovered,1371337,remark1,remark2
+Oralee,23,Male,Puerto Rico,Western,Kandy,11/21/2021,11/22/2021,Central,Kandy,Dead,1501668,remark1,remark2
+Justinn,55,Female,Kiribati,Eastern,Galle,11/21/2021,11/22/2021,Southern,Galle,Dead,1393622,remark1,remark2
+Aurelie,59,Male,Spain,Uva,Anuradhapura,11/21/2021,11/22/2021,North Central,Anuradhapura,Hospitalized,634689,remark1,remark2
+Hettie,66,Male,Luxembourg,Central,Kandy,11/22/2021,11/23/2021,Central,Kandy,Hospitalized,637472,remark1,remark2
+Genevra,22,Female,Guam,Sabaragamuwa,Jaffna,11/22/2021,11/23/2021,Northern,Jaffna,Dead,1727213,remark1,remark2
+Codie,51,Female,French Southern Territories,North Western,Colombo,11/22/2021,11/23/2021,Western,Colombo,Recovered,647322,remark1,remark2
+Jaime,66,Male,Haiti,Northern,Jaffna,11/22/2021,11/23/2021,Northern,Jaffna,Recovered,1687782,remark1,remark2
+Dale,34,Female,Portugal,Uva,Kandy,11/22/2021,11/23/2021,Central,Kandy,Dead,1680047,remark1,remark2
+Carree,38,Male,Botswana,Southern,Kandy,11/22/2021,11/23/2021,Central,Kandy,Hospitalized,1736489,remark1,remark2
+Corly,54,Male,Jamaica,Central,Rambukkana,11/22/2021,11/23/2021,Sabaragamuwa,Rambukkana,Hospitalized,1252391,remark1,remark2
+Gaylene,75,Male,Isle of Man,Southern,Kurunegala,11/22/2021,11/23/2021,North Western,Kurunegala,Recovered,845821,remark1,remark2
+Robinia,62,Male,Armenia,Central,Galle,11/22/2021,11/23/2021,Southern,Galle,Recovered,1237430,remark1,remark2
+Valli,45,Female,Guatemala,Uva,Jaffna,11/22/2021,11/23/2021,Northern,Jaffna,Recovered,565968,remark1,remark2
+Agnese,44,Male,Papua New Guinea,Uva,Galle,11/22/2021,11/23/2021,Southern,Galle,Recovered,1811373,remark1,remark2
+Cathyleen,53,Female,Nigeria,Central,Colombo,11/22/2021,11/23/2021,Western,Colombo,Recovered,484235,remark1,remark2
+Emilia,41,Male,Slovenia,Uva,Jaffna,11/22/2021,11/23/2021,Northern,Jaffna,Dead,785677,remark1,remark2
+Winny,71,Male,Philippines,North Western,Rambukkana,11/22/2021,11/23/2021,Sabaragamuwa,Rambukkana,Recovered,656558,remark1,remark2
+Kittie,76,Male,Croatia,Eastern,Moneragala,11/22/2021,11/23/2021,Uva,Moneragala,Recovered,1518208,remark1,remark2
+Vivia,56,Female,Spain,Southern,Kandy,11/22/2021,11/23/2021,Central,Kandy,Hospitalized,481299,remark1,remark2
+Audrie,42,Female,Colombia,Western,Kurunegala,11/23/2021,11/24/2021,North Western,Kurunegala,Recovered,127835,remark1,remark2
+Susan,29,Female,Norway,North Western,Rambukkana,11/23/2021,11/24/2021,Sabaragamuwa,Rambukkana,Dead,752585,remark1,remark2
+Kara-Lynn,67,Female,Saint Pierre and Miquelon,Northern,Colombo,11/23/2021,11/24/2021,Western,Colombo,Recovered,1031099,remark1,remark2
+Tabbatha,65,Female,Greenland,Uva,Jaffna,11/23/2021,11/24/2021,Northern,Jaffna,Hospitalized,1253409,remark1,remark2
+Carmencita,32,Female,Cameroon,Southern,Jaffna,11/23/2021,11/24/2021,Northern,Jaffna,Recovered,962541,remark1,remark2
+Christian,61,Male,Panama,Uva,Kurunegala,11/23/2021,11/24/2021,North Western,Kurunegala,Recovered,1560768,remark1,remark2
+Kellen,42,Female,Wallis and Futuna,North Western,Rambukkana,11/23/2021,11/24/2021,Sabaragamuwa,Rambukkana,Hospitalized,1133155,remark1,remark2
+Elvira,61,Female,Myanmar,Central,Trincomalee,11/23/2021,11/24/2021,Eastern,Trincomalee,Hospitalized,572338,remark1,remark2
+Charmaine,31,Female,"Korea, Republic of",Sabaragamuwa,Rambukkana,11/23/2021,11/24/2021,Sabaragamuwa,Rambukkana,Recovered,986438,remark1,remark2
+Kary,22,Female,Greenland,Eastern,Jaffna,11/23/2021,11/24/2021,Northern,Jaffna,Recovered,509121,remark1,remark2
